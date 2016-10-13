@@ -3,24 +3,32 @@
 
 -compile(export_all).
 
-send(#email{host_name = undefined}) -> false;
-send(#email{port = undefined}) -> false;
-send(#email{user_name = undefined}) -> false;
-send(#email{password = undefined}) -> false;
-send(#email{to = undefined}) -> false;
-send(#email{host_name = HostName, conn = Conn, port = Port} = Email) ->
+send_mail(#email{host_name = undefined}) -> false;
+send_mail(#email{port = undefined}) -> false;
+send_mail(#email{user_name = undefined}) -> false;
+send_mail(#email{password = undefined}) -> false;
+send_mail(#email{to = undefined}) -> false;
+send_mail(#email{host_name = HostName, conn = Conn, port = Port} = Email) ->
     {ok, Socket} = connect(Conn, HostName, Port),
     SocketEmail = Email#email{socket = Socket}, 
     auth(SocketEmail),
 
 
-auth(Email) ->
+mail_auth(Email) ->
     #email{user_name = UserName, password = Password} = Email,
     send_socket()
 
+mail_head(Email) ->
+
+mail_info() ->
+
+mail_data() ->
+
+mail_end() ->
+
 send_socket(Email, Key, Params) ->
     {ok, BinData} = write_proto(Key, Params),
-    send()
+    send(Email, BinData).
 
 recv_socket(Socket) -> 
     case recv(Socket) of
@@ -39,6 +47,12 @@ proto(user_name, UserName) -> base64:encode(UserName);
 proto(lf, [after_user_name]) -> "\r\n";
 proto(password, Password) -> base64:encode(Password);
 proto(lf, [after_password]) -> "\r\n";
+proto(mail_from, From) -> "MAIL FROM <" ++ From ++ ">\r\n";
+proto(data, []) -> "DATA\r\n";
+proto(from, From) -> "FROM:<" ++ From ++ ">\r\n";
+proto(subject, From) -> "SUBJECT:"++ Subject ++ "\r\n";
+proto(mime_version, []) -> "MIME-VERSION: 1.0\r\n";
+proto(content_type, )
 
 make_sure_binary(Term) when is_list(Term) ->
     unicode:characters_to_binary(Term);
