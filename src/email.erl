@@ -52,7 +52,10 @@ proto(data, []) -> "DATA\r\n";
 proto(from, From) -> "FROM:<" ++ From ++ ">\r\n";
 proto(subject, From) -> "SUBJECT:"++ Subject ++ "\r\n";
 proto(mime_version, []) -> "MIME-VERSION: 1.0\r\n";
-proto(content_type, )
+proto(content_type, []) -> "CONTENT-TYPE: multipart/mixed; BOUNDARY=\"#BOUNDARY#\"\r\n";
+proto(lf, [after_conten_type]) -> "\r\n";
+proto(boundary, []) -> "--#BOUNDARY#\r\n";
+proto()
 
 make_sure_binary(Term) when is_list(Term) ->
     unicode:characters_to_binary(Term);
