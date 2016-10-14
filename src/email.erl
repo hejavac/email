@@ -147,6 +147,18 @@ recv(#email{conn = Conn, socket = Socket}) ->
 recv(#email{conn = Conn, socket = Socket}, Opts) -> 
     Conn:recv(Socket, Opts).
 
+send_mail_test(UserName, Password, From, ToList) ->
+    send_mail(#email{host_name   = "smtp.sina.cn",
+                user_name   = UserName,
+                password    = Password,
+                subject     = "smtp邮件测试",
+                from = From,
+                to_list   = ToList,
+                content = "my test",
+                conn = ?SOCKET_SSL,
+                port = 465
+                }).
+
 send_mail_test() ->
     send_mail(#email{host_name   = "smtp.sina.cn",
                 user_name   = "asdfasn",
