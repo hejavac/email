@@ -1,13 +1,13 @@
 
 %% socket 
--record(?SOCKET_GEN_TCP, gen_tcp).
--record(?SOCKET_SSL, ssl).
--record(?SOCKET_OPTS, [binary, {active, false}, {packet, 0}]).
+-define(SOCKET_GEN_TCP, gen_tcp).
+-define(SOCKET_SSL, ssl).
+-define(SOCKET_OPTS, [binary, {active, false}, {packet, 0}]).
 
 %% recipient type
--record(?TO, "TO").     
--record(?CC, "CC").
--record(?BCC, "BCC").
+-define(TO, "TO").     
+-define(CC, "CC").
+-define(BCC, "BCC").
 
 %% email record
 -record(email, {
@@ -20,5 +20,5 @@
         , subject
         , content
         , from 
-        , to :: [{?TO|?CC|?BCC, mailbox}|...]
+        , to_list :: [mailbox]
     }).

@@ -2,6 +2,6 @@
 %% 控制器
 
 -module(email_controller).
--behaviour(gen_server).
+-compile(export_all).
 
-send() ->
+send() -> ok.
